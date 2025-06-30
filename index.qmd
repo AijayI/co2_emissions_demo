@@ -42,6 +42,9 @@ import country_converter as coco
 Load in your dataset from gapminder below. View it in your data viewer to get an idea of the structure.
 
 ```{python}
+pd.set_option("mode.copy_on_write", True)
+```
+```{python}
 # Load the data
 emissions = pd.read_csv("data\co2_cons.csv")
 emissions
@@ -134,6 +137,7 @@ emissions_long_1990_2022 = emissions_long.query('year >= 1990 and year <= 2022')
 emissions_long_subset = emissions_long_1990_2022.query("country in ['Nigeria', 'UAE', 'Canada', 'Japan', 'China']")
 
 
+
 # Create line chart. Year should be on the x-axis, emissions on the y-axis, and color should be by country.
 fig_chart = px.line(emissions_long_subset, x='year', y='emissions', color='country')
 fig_chart.show()
@@ -153,6 +157,9 @@ This will be animated by year.
 1. Ensure each country has a 3-letter ISO code. We'll use `country_converter` for that.
 2. Create a map with `px.choropleth` and use `animation_frame` to show changes over time.
 
+```{python}
+emissions_long_1990_2022 = emissions_long_1990_2022.replace({"UAE": "United Arab Emirates"})
+```
 ```{python}
 # Convert country names to ISO3 codes
 emissions_long_1990_2022["country_code"] = coco.convert(
